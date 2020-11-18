@@ -7,21 +7,19 @@ import RemoveRowBtn from "./components/Buttons/RemoveButtons/RemoveRow";
 import "./App.css";
 
 function App() {
-  class State {
-    constructor() {
-      this.rowsNum = 4;
-      this.cellsNum = 4;
-      this.rows = [...Array(this.rowsNum).keys()].map(el => ({ id: el }));
-      this.cells = [...Array(this.cellsNum).keys()].map(el => ({ id: el }));
-      this.left = 0;
-      this.top = 0;
-      this.rowKey = 0;
-      this.cellKey = 0;
-      this.removeColumnVisibility = false;
-      this.removeRowVisibility = false;
-    }
-  }
-  const initialState = new State();
+  const initialState = {
+    rowsNum: 4,
+    cellsNum: 4,
+    rows: [...Array(4).keys()].map(el => ({ id: el })),
+    cells: [...Array(4).keys()].map(el => ({ id: el })),
+    rowKey: 0,
+    cellKey: 0,
+    initialWidth: 50,
+    left: 0,
+    top: 0,
+    removeColumnVisibility: false,
+    removeRowVisibility: false,
+  };
 
   const [state, setState] = React.useState(initialState);
 
@@ -41,21 +39,23 @@ function App() {
     }));
   }
 
+  // RemoveColumn button
   function moveButtonX(offset, cellKey, flag) {
     setState(state => ({
       ...state,
       left: offset + 2 + "px",
       cellKey,
-      removeRowVisibility: flag,
+      removeColumnVisibility: flag,
     }));
   }
 
+  // RemoveRow button
   function moveButtonY(offset, rowKey, flag) {
     setState(state => ({
       ...state,
       top: offset + 2 + "px",
       rowKey,
-      removeColumnVisibility: flag,
+      removeRowVisibility: flag,
     }));
   }
 
@@ -65,6 +65,8 @@ function App() {
       ...state,
       rowsNum: state.rowsNum - 1,
       rows: newRows,
+      removeRowVisibility: false,
+      removeColumnVisibility: false,
     }));
   }
 
@@ -74,14 +76,27 @@ function App() {
       ...state,
       cellsNum: state.cellsNum - 1,
       cells: newCells,
+      removeRowVisibility: false,
+      removeColumnVisibility: false,
     }));
   }
 
+  // Mouse leaves the table
   function mouseLeave(flag) {
+    const RowFlag = state.rowsNum > 1 ? flag : false;
+    const ColumnFlag = state.cellsNum > 1 ? flag : false;
     setState(state => ({
       ...state,
-      removeColumnVisibility: flag,
-      removeRowVisibility: flag,
+      removeRowVisibility: RowFlag,
+      removeColumnVisibility: ColumnFlag,
+    }));
+  }
+
+  function buttonLeave() {
+    setState(state => ({
+      ...state,
+      removeRowVisibility: false,
+      removeColumnVisibility: false,
     }));
   }
 
@@ -92,21 +107,26 @@ function App() {
         cells={state.cells}
         rowsNum={state.rowsNum}
         cellsNum={state.cellsNum}
+        initialWidth={state.initialWidth}
         moveButtonX={moveButtonX}
         moveButtonY={moveButtonY}
         mouseLeave={mouseLeave}
       />
-      <AddRowBtn addRow={addRow} />
-      <AddColumnBtn addColumn={addColumn} />
+      <AddRowBtn addRow={addRow} initialWidth={state.initialWidth} />
+      <AddColumnBtn addColumn={addColumn} initialWidth={state.initialWidth} />
       <RemoveRowBtn
+        initialWidth={state.initialWidth}
         offset={state.top}
+        isVisible={state.removeRowVisibility}
         removeRow={removeRow}
-        isVisible={state.removeColumnVisibility}
+        buttonLeave={buttonLeave}
       />
       <RemoveColumnBtn
+        initialWidth={state.initialWidth}
         offset={state.left}
-        removeColumn={removeColumn}
         isVisible={state.removeColumnVisibility}
+        removeColumn={removeColumn}
+        buttonLeave={buttonLeave}
       />
     </div>
   );

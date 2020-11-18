@@ -1,20 +1,25 @@
 import React from "react";
 import classes from "./RemoveButtons.module.css";
 
-const RemoveRowButton = ({ offset, removeRow, isVisible }) => {
+const RemoveRowButton = ({
+  offset,
+  removeRow,
+  isVisible,
+  initialWidth,
+  buttonLeave,
+}) => {
   let className = isVisible
     ? `${classes.removeRow} ${classes.visible}`
     : classes.removeRow;
 
-  function handleRemoveRow() {
-    removeRow();
-  }
+  const size = initialWidth + "px";
 
   return (
     <div
       className={className}
-      style={{ top: offset }}
-      onClick={handleRemoveRow}
+      style={{ top: offset, width: size, height: size, lineHeight: size }}
+      onClick={removeRow}
+      onMouseLeave={buttonLeave}
     >
       -
     </div>

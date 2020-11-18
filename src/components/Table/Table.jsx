@@ -7,6 +7,7 @@ const Table = ({
   cells,
   rowsNum,
   cellsNum,
+  initialWidth,
   moveButtonX,
   moveButtonY,
   mouseLeave,
@@ -25,6 +26,7 @@ const Table = ({
       rowKey={row.id}
       rowsNum={rowsNum}
       cellsNum={cellsNum}
+      initialWidth={initialWidth}
       moveButtonX={moveButtonX}
       moveButtonY={moveButtonY}
     />
@@ -42,6 +44,8 @@ const Row = ({
   cells,
   rowsNum,
   cellsNum,
+  initialWidth,
+
   moveButtonX,
   moveButtonY,
   rowKey,
@@ -53,6 +57,7 @@ const Row = ({
       rowKey={rowKey}
       cellsNum={cellsNum}
       rowsNum={rowsNum}
+      initialWidth={initialWidth}
       moveButtonX={moveButtonX}
       moveButtonY={moveButtonY}
     />
@@ -63,12 +68,13 @@ const Row = ({
 
 // Cell
 const Cell = ({
-  moveButtonX,
-  moveButtonY,
   rowKey,
   cellKey,
   rowsNum,
   cellsNum,
+  initialWidth,
+  moveButtonX,
+  moveButtonY,
 }) => {
   function handleMove(event) {
     const { offsetLeft, offsetTop } = event.target;
@@ -83,7 +89,11 @@ const Cell = ({
   }
 
   return (
-    <td className={style.square} onMouseMove={handleMove}>
+    <td
+      style={{ width: initialWidth + "px", height: initialWidth + "px" }}
+      className={style.square}
+      onMouseMove={handleMove}
+    >
       {rowKey}
     </td>
   );

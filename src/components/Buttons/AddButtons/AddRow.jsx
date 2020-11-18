@@ -1,9 +1,18 @@
 import React from "react";
 import classes from "./AddButtons.module.css";
 
-const AddRowBtn = ({ addRow }) => {
+const AddRowBtn = ({ initialWidth, addRow }) => {
+  const size = initialWidth + "px";
   return (
-    <div className={classes.addRow} onClick={addRow}>
+    <div
+      style={{
+        width: size,
+        height: size,
+        lineHeight: size,
+      }}
+      className={classes.addRow}
+      onClick={addRow}
+    >
       +
     </div>
   );
