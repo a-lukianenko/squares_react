@@ -1,0 +1,15 @@
+.squares {
+  border: 2px solid #48aae6;
+}
+
+.square {
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 900;
+  text-align: center;
+  background-color: #48aae6;
+  color: white;
+}
