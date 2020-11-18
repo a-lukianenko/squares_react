@@ -41,21 +41,21 @@ function App() {
     }));
   }
 
-  function moveButtonX(offset, cellKey) {
+  function moveButtonX(offset, cellKey, flag) {
     setState(state => ({
       ...state,
       left: offset + 2 + "px",
       cellKey,
-      removeRowVisibility: true,
+      removeRowVisibility: flag,
     }));
   }
 
-  function moveButtonY(offset, rowKey) {
+  function moveButtonY(offset, rowKey, flag) {
     setState(state => ({
       ...state,
       top: offset + 2 + "px",
       rowKey,
-      removeColumnVisibility: true,
+      removeColumnVisibility: flag,
     }));
   }
 
@@ -77,13 +77,24 @@ function App() {
     }));
   }
 
+  function mouseLeave(flag) {
+    setState(state => ({
+      ...state,
+      removeColumnVisibility: flag,
+      removeRowVisibility: flag,
+    }));
+  }
+
   return (
     <div className='squaresWrapper'>
       <Table
         rows={state.rows}
         cells={state.cells}
+        rowsNum={state.rowsNum}
+        cellsNum={state.cellsNum}
         moveButtonX={moveButtonX}
         moveButtonY={moveButtonY}
+        mouseLeave={mouseLeave}
       />
       <AddRowBtn addRow={addRow} />
       <AddColumnBtn addColumn={addColumn} />
