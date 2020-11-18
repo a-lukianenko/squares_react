@@ -3,9 +3,9 @@ import classes from "./RemoveButtons.module.css";
 
 const RemoveRowButton = ({
   offset,
-  removeRow,
   isVisible,
   initialWidth,
+  removeRow,
   buttonLeave,
 }) => {
   let className = isVisible

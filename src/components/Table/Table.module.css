@@ -3,10 +3,6 @@
 }
 
 .square {
-  cursor: pointer;
-  font-size: 22px;
-  font-weight: 900;
-  text-align: center;
+  cursor: default;
   background-color: #48aae6;
-  color: white;
 }

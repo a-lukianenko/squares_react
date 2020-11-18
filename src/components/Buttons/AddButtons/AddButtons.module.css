@@ -1,11 +1,7 @@
 .addRow,
 .addColumn {
   position: absolute;
-  font-size: 22px;
-  font-weight: 900;
-  text-align: center;
   background-color: #f3a500;
-  color: white;
   cursor: pointer;
   transition: background-color 0.25s ease-in-out;
 }

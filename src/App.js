@@ -17,8 +17,8 @@ function App() {
     initialWidth: 50,
     left: 0,
     top: 0,
-    removeColumnVisibility: false,
-    removeRowVisibility: false,
+    isRemoveColumnVisible: false,
+    isRemoveRowVisible: false,
   };
 
   const [state, setState] = React.useState(initialState);
@@ -39,23 +39,23 @@ function App() {
     }));
   }
 
-  // RemoveColumn button
+  // Move RemoveColumn button
   function moveButtonX(offset, cellKey, flag) {
     setState(state => ({
       ...state,
       left: offset + 2 + "px",
       cellKey,
-      removeColumnVisibility: flag,
+      isRemoveColumnVisible: flag,
     }));
   }
 
-  // RemoveRow button
+  // Move RemoveRow button
   function moveButtonY(offset, rowKey, flag) {
     setState(state => ({
       ...state,
       top: offset + 2 + "px",
       rowKey,
-      removeRowVisibility: flag,
+      isRemoveRowVisible: flag,
     }));
   }
 
@@ -65,8 +65,8 @@ function App() {
       ...state,
       rowsNum: state.rowsNum - 1,
       rows: newRows,
-      removeRowVisibility: false,
-      removeColumnVisibility: false,
+      isRemoveRowVisible: false,
+      isRemoveColumnVisible: false,
     }));
   }
 
@@ -76,27 +76,26 @@ function App() {
       ...state,
       cellsNum: state.cellsNum - 1,
       cells: newCells,
-      removeRowVisibility: false,
-      removeColumnVisibility: false,
+      isRemoveRowVisible: false,
+      isRemoveColumnVisible: false,
     }));
   }
 
   // Mouse leaves the table
   function mouseLeave(flag) {
-    const RowFlag = state.rowsNum > 1 ? flag : false;
-    const ColumnFlag = state.cellsNum > 1 ? flag : false;
     setState(state => ({
       ...state,
-      removeRowVisibility: RowFlag,
-      removeColumnVisibility: ColumnFlag,
+      isRemoveRowVisible: state.rowsNum > 1 ? flag : false,
+      isRemoveColumnVisible: state.cellsNum > 1 ? flag : false,
     }));
   }
 
+  // Mouse leaves RemoveButtons
   function buttonLeave() {
     setState(state => ({
       ...state,
-      removeRowVisibility: false,
-      removeColumnVisibility: false,
+      isRemoveRowVisible: false,
+      isRemoveColumnVisible: false,
     }));
   }
 
@@ -112,19 +111,19 @@ function App() {
         moveButtonY={moveButtonY}
         mouseLeave={mouseLeave}
       />
-      <AddRowBtn addRow={addRow} initialWidth={state.initialWidth} />
-      <AddColumnBtn addColumn={addColumn} initialWidth={state.initialWidth} />
+      <AddRowBtn initialWidth={state.initialWidth} addRow={addRow} />
+      <AddColumnBtn initialWidth={state.initialWidth} addColumn={addColumn} />
       <RemoveRowBtn
         initialWidth={state.initialWidth}
         offset={state.top}
-        isVisible={state.removeRowVisibility}
+        isVisible={state.isRemoveRowVisible}
         removeRow={removeRow}
         buttonLeave={buttonLeave}
       />
       <RemoveColumnBtn
         initialWidth={state.initialWidth}
         offset={state.left}
-        isVisible={state.removeColumnVisibility}
+        isVisible={state.isRemoveColumnVisible}
         removeColumn={removeColumn}
         buttonLeave={buttonLeave}
       />

@@ -1,11 +1,7 @@
 .removeColumn,
 .removeRow {
   position: absolute;
-  font-size: 22px;
-  font-weight: 900;
-  text-align: center;
   background-color: #b20000;
-  color: white;
   opacity: 0;
   cursor: pointer;
   pointer-events: none;
