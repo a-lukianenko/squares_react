@@ -1,65 +1,62 @@
 import React from "react";
-import style from "./Table.module.css";
+import css from "./Table.module.css";
 
 // Table
-const Table = ({
-  rows,
-  cells,
-  rowsNum,
-  cellsNum,
-  initialWidth,
-  moveButtonX,
-  moveButtonY,
-  mouseLeave,
-}) => {
+const Table = ({ rows, cells, cellSize, moveButtons, mouseLeave }) => {
+  function handleMouseMove(event) {
+    if (event.target.tagName === "TD") {
+      const {
+        offsetTop,
+        offsetLeft,
+        cellIndex,
+        parentElement: { rowIndex },
+      } = event.target;
+      const payload = {
+        offsetLeft,
+        offsetTop,
+        rowIndex,
+        cellIndex,
+      };
+      moveButtons(payload);
+    }
+  }
+
   function handleMouseLeave(event) {
     const { className } = event.relatedTarget;
-    className && className.includes("RemoveButtons")
+    className && className.includes("remove")
       ? mouseLeave(true)
       : mouseLeave(false);
   }
 
   const tableRows = rows.map(row => (
     <Row
+      rowsNum={row.length}
+      cellsNum={cells.length}
       key={row.id}
       cells={cells}
-      rowKey={row.id}
-      rowsNum={rowsNum}
-      cellsNum={cellsNum}
-      initialWidth={initialWidth}
-      moveButtonX={moveButtonX}
-      moveButtonY={moveButtonY}
+      cellSize={cellSize}
     />
   ));
 
   return (
-    <table className={style.squares} onMouseLeave={handleMouseLeave}>
+    <table
+      className={css.squares}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
       <tbody>{tableRows}</tbody>
     </table>
   );
 };
 
 // Row
-const Row = ({
-  cells,
-  rowsNum,
-  cellsNum,
-  initialWidth,
-
-  moveButtonX,
-  moveButtonY,
-  rowKey,
-}) => {
+const Row = ({ cells, cellSize, rowsNum, cellsNum }) => {
   const rowCells = cells.map(cell => (
     <Cell
-      key={cell.id}
-      cellKey={cell.id}
-      rowKey={rowKey}
-      cellsNum={cellsNum}
       rowsNum={rowsNum}
-      initialWidth={initialWidth}
-      moveButtonX={moveButtonX}
-      moveButtonY={moveButtonY}
+      cellsNum={cellsNum}
+      key={cell.id}
+      cellSize={cellSize}
     />
   ));
 
@@ -67,35 +64,12 @@ const Row = ({
 };
 
 // Cell
-const Cell = ({
-  rowKey,
-  cellKey,
-  rowsNum,
-  cellsNum,
-  initialWidth,
-  moveButtonX,
-  moveButtonY,
-}) => {
-  function handleMove(event) {
-    const { offsetLeft, offsetTop } = event.target;
-    if (rowsNum > 1 && cellsNum > 1) {
-      moveButtonY(offsetTop, rowKey, true);
-      moveButtonX(offsetLeft, cellKey, true);
-    } else if (rowsNum > 1) {
-      moveButtonY(offsetTop, rowKey, true);
-    } else if (cellsNum > 1) {
-      moveButtonX(offsetLeft, cellKey, true);
-    }
-  }
-
+const Cell = ({ rowsNum, cellsNum, cellSize }) => {
   return (
     <td
-      style={{ width: initialWidth + "px", height: initialWidth + "px" }}
-      className={style.square}
-      onMouseMove={handleMove}
-    >
-      {rowKey}
-    </td>
+      style={{ width: cellSize + "px", height: cellSize + "px" }}
+      className={css.square}
+    ></td>
   );
 };
 

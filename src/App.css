@@ -4,11 +4,3 @@
   align-items: center;
   height: 100vh;
 }
-
-.squaresWrapper {
-  position: relative;
-  text-align: center;
-  font-size: 22px;
-  font-weight: 900;
-  color: white;
-}

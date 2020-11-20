@@ -1,9 +1,39 @@
+button {
+  border: none;
+  outline: none;
+  font-size: 22px;
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+}
+
+.addRow,
+.addColumn {
+  position: absolute;
+  background-color: #f3a500;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.addRow:hover,
+.addColumn:hover {
+  background-color: #f6c052;
+}
+
+.addRow {
+  top: calc(100% + 2px);
+  left: 3px;
+}
+
+.addColumn {
+  top: 3px;
+  left: calc(100% + 2px);
+}
+
 .removeColumn,
 .removeRow {
   position: absolute;
   background-color: #b20000;
   opacity: 0;
-  cursor: pointer;
   pointer-events: none;
   transition: all 0.25s ease-in-out;
 }
