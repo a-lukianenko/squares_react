@@ -1,5 +1,5 @@
 import React from "react";
-import classes from "./Button.module.css";
+import css from "./Button.module.css";
 
 const Button = ({
   type,
@@ -12,9 +12,7 @@ const Button = ({
 }) => {
   const size = cellSize + "px";
 
-  const s = isVisible
-    ? `${classes[className]} ${classes.visible}`
-    : classes[className];
+  const s = isVisible ? `${css[className]} ${css.visible}` : css[className];
 
   return (
     <button

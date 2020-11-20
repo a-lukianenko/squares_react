@@ -1,7 +1,7 @@
 import React from "react";
 import Table from "../Table/Table";
 import Button from "../Buttons/Button";
-import classes from "./SuperTable.module.css";
+import css from "./SuperTable.module.css";
 
 const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
   // integer to an array of objects with id
@@ -88,13 +88,13 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
   }
 
   return (
-    <div className={classes.squaresWrapper} onMouseLeave={mouseLeaveSuperTable}>
+    <div className={css.squaresWrapper} onMouseLeave={mouseLeaveSuperTable}>
       <Table
         rows={state.rows}
         cells={state.cells}
         cellSize={cellSize}
         moveButtons={moveButtons}
-        mouseLeave={mouseLeaveTable}
+        mouseLeaveTable={mouseLeaveTable}
       />
 
       {/* Add Row */}

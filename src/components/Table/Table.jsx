@@ -2,7 +2,7 @@ import React from "react";
 import css from "./Table.module.css";
 
 // Table
-const Table = ({ rows, cells, cellSize, moveButtons, mouseLeave }) => {
+const Table = ({ rows, cells, cellSize, moveButtons, mouseLeaveTable }) => {
   function handleMouseMove(event) {
     if (event.target.tagName === "TD") {
       const {
@@ -24,8 +24,8 @@ const Table = ({ rows, cells, cellSize, moveButtons, mouseLeave }) => {
   function handleMouseLeave(event) {
     const { className } = event.relatedTarget;
     className && className.includes("remove")
-      ? mouseLeave(true)
-      : mouseLeave(false);
+      ? mouseLeaveTable(true)
+      : mouseLeaveTable(false);
   }
 
   const tableRows = rows.map(row => (
