@@ -38,7 +38,7 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
 
   // Remove buttons methods
   function removeRow() {
-    if (state.rows.length > 1)
+    if (state.rows[1])
       setState(state => ({
         ...state,
         rows: state.rows.filter((_, i) => i !== state.rowIndex),
@@ -48,7 +48,7 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
   }
 
   function removeColumn() {
-    if (state.cells.length > 1)
+    if (state.cells[1])
       setState(state => ({
         ...state,
         cells: state.cells.filter((_, i) => i !== state.cellIndex),
@@ -66,16 +66,16 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
       top: offsetTop,
       rowIndex,
       cellIndex,
-      isRemoveRowVisible: state.rows.length > 1 ? true : false,
-      isRemoveColumnVisible: state.cells.length > 1 ? true : false,
+      isRemoveRowVisible: state.rows[1] ? true : false,
+      isRemoveColumnVisible: state.cells[1] ? true : false,
     });
   }
 
   function mouseLeaveTable(flag) {
     setState(state => ({
       ...state,
-      isRemoveRowVisible: state.rows.length > 1 ? flag : false,
-      isRemoveColumnVisible: state.cells.length > 1 ? flag : false,
+      isRemoveRowVisible: state.rows[1] ? flag : false,
+      isRemoveColumnVisible: state.cells[1] ? flag : false,
     }));
   }
 
