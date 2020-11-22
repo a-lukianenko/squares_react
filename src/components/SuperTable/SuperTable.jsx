@@ -1,6 +1,6 @@
 import React from "react";
 import Table from "../Table/Table";
-import Button from "../Buttons/Button";
+import Button from "../Button/Button";
 import css from "./SuperTable.module.css";
 
 const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
@@ -12,8 +12,8 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
     cells: range(initialWidth),
     rowIndex: 0,
     cellIndex: 0,
-    left: 0,
-    top: 0,
+    left: null,
+    top: null,
     isRemoveRowVisible: false,
     isRemoveColumnVisible: false,
   };
@@ -97,38 +97,42 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
         mouseLeaveTable={mouseLeaveTable}
       />
 
-      {/* Add Row */}
+      {/* Add Row button */}
       <Button
-        className='addRow'
         type='+'
+        top='calc(100% + 2px)'
+        left='3px'
         cellSize={cellSize}
         handleClick={addRow}
       />
 
-      {/* Add Column */}
+      {/* Add Column button */}
       <Button
-        className='addColumn'
         type='+'
+        top='3px'
+        left='calc(100% + 2px)'
         cellSize={cellSize}
         handleClick={addColumn}
       />
 
-      {/* Remove Row */}
+      {/* Remove Row button */}
       <Button
-        className='removeRow'
         type='-'
         cellSize={cellSize}
         top={state.top + 2}
+        right='100%'
+        boxShadow='inset -3px 0px 0 -1px white'
         handleClick={removeRow}
         isVisible={state.isRemoveRowVisible}
       />
 
-      {/* Remove Column */}
+      {/* Remove Column button */}
       <Button
-        className='removeColumn'
         type='-'
         cellSize={cellSize}
         left={state.left + 2}
+        bottom='100%'
+        boxShadow='inset 0px -3px 0 -1px white'
         handleClick={removeColumn}
         isVisible={state.isRemoveColumnVisible}
       />

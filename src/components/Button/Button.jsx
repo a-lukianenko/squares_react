@@ -3,27 +3,39 @@ import css from "./Button.module.css";
 
 const Button = ({
   type,
-  className,
   cellSize,
   top,
   left,
+  right,
+  bottom,
+  boxShadow,
   handleClick,
   isVisible,
 }) => {
   const size = cellSize + "px";
 
-  const s = isVisible ? `${css[className]} ${css.visible}` : css[className];
+  let buttonType;
+  if (type === "+") {
+    buttonType = css.addBtn;
+  } else if (type === "-") {
+    buttonType = css.removeBtn;
+  }
+
+  const buttonClass = isVisible ? `${buttonType} ${css.visible}` : buttonType;
 
   return (
     <button
       style={{
-        top: top,
-        left: left,
+        top,
+        left,
+        right,
+        bottom,
         width: size,
         height: size,
         lineHeight: size,
+        boxShadow,
       }}
-      className={s}
+      className={buttonClass}
       onClick={handleClick}
     >
       {type}

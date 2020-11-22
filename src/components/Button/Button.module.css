@@ -1,0 +1,34 @@
+.addBtnBtn,
+.removeBtnBtn {
+  position: absolute;
+  border: none;
+  outline: none;
+  font-size: 22px;
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+}
+
+.addBtn {
+  background-color: #f3a500;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.addBtn:hover {
+  background-color: #f6c052;
+}
+
+.removeBtn {
+  background-color: #b20000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.25s ease-in-out;
+}
+.removeBtn:hover {
+  background-color: #ca4c49;
+}
+
+.visible {
+  opacity: 1;
+  pointer-events: unset;
+}
