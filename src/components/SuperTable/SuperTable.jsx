@@ -71,7 +71,7 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
     });
   }
 
-  function mouseLeaveTable(flag) {
+  function showButtons(flag) {
     setState(state => ({
       ...state,
       isRemoveRowVisible: state.rows[1] ? flag : false,
@@ -93,8 +93,8 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
         rows={state.rows}
         cells={state.cells}
         cellSize={cellSize}
-        moveButtons={moveButtons}
-        mouseLeaveTable={mouseLeaveTable}
+        onMouseMove={moveButtons}
+        onMouseLeave={showButtons}
       />
 
       {/* Add Row button */}
