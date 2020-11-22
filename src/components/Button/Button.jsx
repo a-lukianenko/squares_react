@@ -1,17 +1,7 @@
 import React from "react";
 import css from "./Button.module.css";
 
-const Button = ({
-  type,
-  cellSize,
-  top,
-  left,
-  right,
-  bottom,
-  boxShadow,
-  handleClick,
-  isVisible,
-}) => {
+const Button = ({ type, style, cellSize, onClick, isVisible }) => {
   const size = cellSize + "px";
 
   let buttonType;
@@ -26,17 +16,13 @@ const Button = ({
   return (
     <button
       style={{
-        top,
-        left,
-        right,
-        bottom,
+        ...style,
         width: size,
         height: size,
         lineHeight: size,
-        boxShadow,
       }}
       className={buttonClass}
-      onClick={handleClick}
+      onClick={onClick}
     >
       {type}
     </button>

@@ -3,7 +3,7 @@ import Table from "../Table/Table";
 import Button from "../Button/Button";
 import css from "./SuperTable.module.css";
 
-const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
+const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
   const range = int => [...Array(int).keys()].map(el => ({ id: el }));
 
@@ -100,40 +100,42 @@ const SuperTable = ({ initialWidth, initialHeight, cellSize }) => {
       {/* Add Row button */}
       <Button
         type='+'
-        top='calc(100% + 2px)'
-        left='3px'
+        style={{ top: "calc(100% + 2px)", left: "3px" }}
         cellSize={cellSize}
-        handleClick={addRow}
+        onClick={addRow}
       />
 
       {/* Add Column button */}
       <Button
         type='+'
-        top='3px'
-        left='calc(100% + 2px)'
+        style={{ top: "3px", left: "calc(100% + 2px)" }}
         cellSize={cellSize}
-        handleClick={addColumn}
+        onClick={addColumn}
       />
 
       {/* Remove Row button */}
       <Button
         type='-'
+        style={{
+          top: state.top + 2,
+          right: "100%",
+          boxShadow: "inset -3px 0px 0 -1px white",
+        }}
         cellSize={cellSize}
-        top={state.top + 2}
-        right='100%'
-        boxShadow='inset -3px 0px 0 -1px white'
-        handleClick={removeRow}
+        onClick={removeRow}
         isVisible={state.isRemoveRowVisible}
       />
 
       {/* Remove Column button */}
       <Button
         type='-'
+        style={{
+          left: state.left + 2,
+          bottom: "100%",
+          boxShadow: "inset 0px -3px 0 -1px white",
+        }}
         cellSize={cellSize}
-        left={state.left + 2}
-        bottom='100%'
-        boxShadow='inset 0px -3px 0 -1px white'
-        handleClick={removeColumn}
+        onClick={removeColumn}
         isVisible={state.isRemoveColumnVisible}
       />
     </div>
