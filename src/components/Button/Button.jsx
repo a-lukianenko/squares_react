@@ -1,17 +1,16 @@
 import React from "react";
 import css from "./Button.module.css";
 
-const Button = ({ type, style, cellSize, onClick, isVisible }) => {
-  const size = cellSize + "px";
-
-  let buttonType;
+const Button = ({ type, style, size, onClick, isVisible }) => {
+  size = size + "px";
+  let buttonClass;
   if (type === "+") {
-    buttonType = css.addBtn;
+    buttonClass = css.addBtn;
   } else if (type === "-") {
-    buttonType = css.removeBtn;
+    buttonClass = css.removeBtn;
   }
 
-  const buttonClass = isVisible ? `${buttonType} ${css.visible}` : buttonType;
+  buttonClass = isVisible ? `${buttonClass} ${css.visible}` : buttonClass;
 
   return (
     <button

@@ -93,7 +93,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       <Button
         type='+'
         style={{ top: "calc(100% + 2px)", left: "3px" }}
-        cellSize={cellSize}
+        size={cellSize}
         onClick={addRow}
       />
 
@@ -101,7 +101,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       <Button
         type='+'
         style={{ top: "3px", left: "calc(100% + 2px)" }}
-        cellSize={cellSize}
+        size={cellSize}
         onClick={addColumn}
       />
 
@@ -113,7 +113,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           right: "100%",
           boxShadow: "inset -3px 0px 0 -1px white",
         }}
-        cellSize={cellSize}
+        size={cellSize}
         onClick={removeRow}
         isVisible={state.isVisible && state.rows.length > 1}
       />
@@ -126,7 +126,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           bottom: "100%",
           boxShadow: "inset 0px -3px 0 -1px white",
         }}
-        cellSize={cellSize}
+        size={cellSize}
         onClick={removeColumn}
         isVisible={state.isVisible && state.cells.length > 1}
       />

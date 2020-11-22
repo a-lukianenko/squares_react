@@ -28,46 +28,37 @@ const Table = ({ rows, cells, cellSize, onMouseMove, onMouseLeave }) => {
       : onMouseLeave(false);
   }
 
-  const tableRows = rows.map(row => (
-    <Row
-      rowsNum={row.length}
-      cellsNum={cells.length}
-      key={row.id}
-      cells={cells}
-      cellSize={cellSize}
-    />
-  ));
-
   return (
     <table
       className={css.squares}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      <tbody>{tableRows}</tbody>
+      <tbody>
+        {rows.map(row => (
+          <Row key={row.id} cells={cells} cellSize={cellSize} />
+        ))}
+      </tbody>
     </table>
   );
 };
 
 // Row
-const Row = ({ cells, cellSize, rowsNum, cellsNum }) => {
-  const rowCells = cells.map(cell => (
-    <Cell
-      rowsNum={rowsNum}
-      cellsNum={cellsNum}
-      key={cell.id}
-      cellSize={cellSize}
-    />
-  ));
-
-  return <tr>{rowCells}</tr>;
+const Row = ({ cells, cellSize }) => {
+  return (
+    <tr>
+      {cells.map(cell => (
+        <Cell key={cell.id} size={cellSize} />
+      ))}
+    </tr>
+  );
 };
 
 // Cell
-const Cell = ({ rowsNum, cellsNum, cellSize }) => {
+const Cell = ({ size }) => {
   return (
     <td
-      style={{ width: cellSize + "px", height: cellSize + "px" }}
+      style={{ width: size + "px", height: size + "px" }}
       className={css.square}
     ></td>
   );
