@@ -14,8 +14,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
     cellIndex: 0,
     left: null,
     top: null,
-    isRemoveRowVisible: false,
-    isRemoveColumnVisible: false,
+    isVisible: null,
   };
 
   const [state, setState] = React.useState(initialState);
@@ -38,23 +37,19 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
 
   // Remove buttons methods
   function removeRow() {
-    if (state.rows[1])
-      setState(state => ({
-        ...state,
-        rows: state.rows.filter((_, i) => i !== state.rowIndex),
-        isRemoveRowVisible: false,
-        isRemoveColumnVisible: false,
-      }));
+    setState(state => ({
+      ...state,
+      rows: state.rows.filter((_, i) => i !== state.rowIndex),
+      isVisible: false,
+    }));
   }
 
   function removeColumn() {
-    if (state.cells[1])
-      setState(state => ({
-        ...state,
-        cells: state.cells.filter((_, i) => i !== state.cellIndex),
-        isRemoveRowVisible: false,
-        isRemoveColumnVisible: false,
-      }));
+    setState(state => ({
+      ...state,
+      cells: state.cells.filter((_, i) => i !== state.cellIndex),
+      isVisible: false,
+    }));
   }
   //
 
@@ -66,24 +61,21 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       top: offsetTop,
       rowIndex,
       cellIndex,
-      isRemoveRowVisible: state.rows[1] ? true : false,
-      isRemoveColumnVisible: state.cells[1] ? true : false,
+      isVisible: true,
     });
   }
 
-  function showButtons(flag) {
+  function hideButtons(flag) {
     setState(state => ({
       ...state,
-      isRemoveRowVisible: state.rows[1] ? flag : false,
-      isRemoveColumnVisible: state.cells[1] ? flag : false,
+      isVisible: flag,
     }));
   }
 
   function mouseLeaveSuperTable() {
     setState(state => ({
       ...state,
-      isRemoveRowVisible: false,
-      isRemoveColumnVisible: false,
+      isVisible: false,
     }));
   }
 
@@ -94,7 +86,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
         cells={state.cells}
         cellSize={cellSize}
         onMouseMove={moveButtons}
-        onMouseLeave={showButtons}
+        onMouseLeave={hideButtons}
       />
 
       {/* Add Row button */}
@@ -123,7 +115,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
         }}
         cellSize={cellSize}
         onClick={removeRow}
-        isVisible={state.isRemoveRowVisible}
+        isVisible={state.isVisible && state.rows.length > 1}
       />
 
       {/* Remove Column button */}
@@ -136,7 +128,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
         }}
         cellSize={cellSize}
         onClick={removeColumn}
-        isVisible={state.isRemoveColumnVisible}
+        isVisible={state.isVisible && state.cells.length > 1}
       />
     </div>
   );
