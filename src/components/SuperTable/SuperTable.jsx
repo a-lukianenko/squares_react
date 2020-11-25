@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import Table from "../Table/Table";
 import Button from "../Button/Button";
 import css from "./SuperTable.module.css";
 import { Context } from "../../context";
 
+const functionsCounter = new Set();
+
 const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
-  const range = int => {
+  const range = useCallback(int => {
     console.log("generated");
     return [...Array(int).keys()].map(el => ({ id: el }));
-  };
+  }, []);
 
   const initialState = {
     rowIndex: null,
@@ -68,6 +70,9 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
     setIsVisible(false);
   }
   //
+
+  functionsCounter.add(range);
+  console.log(functionsCounter);
 
   return (
     <div className={css.squaresWrapper} onMouseLeave={mouseLeaveSuperTable}>
