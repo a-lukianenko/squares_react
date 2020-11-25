@@ -22,35 +22,35 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
 
   // Add Buttons methods
   function addRow() {
-    setState(state => ({
+    setState({
       ...state,
       rows: range(state.rows.length + 1),
-    }));
+    });
   }
 
   function addColumn() {
-    setState(state => ({
+    setState({
       ...state,
       cells: range(state.cells.length + 1),
-    }));
+    });
   }
   //
 
   // Remove buttons methods
   function removeRow() {
-    setState(state => ({
+    setState({
       ...state,
       rows: state.rows.filter((_, i) => i !== state.rowIndex),
       isVisible: false,
-    }));
+    });
   }
 
   function removeColumn() {
-    setState(state => ({
+    setState({
       ...state,
       cells: state.cells.filter((_, i) => i !== state.cellIndex),
       isVisible: false,
-    }));
+    });
   }
   //
 
@@ -67,17 +67,17 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   }
 
   function hideButtons(flag) {
-    setState(state => ({
+    setState({
       ...state,
       isVisible: flag,
-    }));
+    });
   }
 
   function mouseLeaveSuperTable() {
-    setState(state => ({
+    setState({
       ...state,
       isVisible: false,
-    }));
+    });
   }
 
   return (
