@@ -7,6 +7,7 @@ import { Context } from "../../context";
 const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
   const range = int => {
+    console.log("generated");
     return [...Array(int).keys()].map(el => ({ id: el }));
   };
 
