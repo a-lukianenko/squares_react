@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "../Table/Table";
 import Button from "../Button/Button";
 import css from "./SuperTable.module.css";
+import { Context } from "../../context";
 
 const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
@@ -10,14 +11,14 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   const initialState = {
     rows: range(initialHeight),
     cells: range(initialWidth),
-    rowIndex: 0,
-    cellIndex: 0,
+    rowIndex: null,
+    cellIndex: null,
     left: null,
     top: null,
     isVisible: null,
   };
 
-  const [state, setState] = React.useState(initialState);
+  const [state, setState] = useState(initialState);
 
   // Add Buttons methods
   function addRow() {
@@ -81,55 +82,55 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
 
   return (
     <div className={css.squaresWrapper} onMouseLeave={mouseLeaveSuperTable}>
-      <Table
-        rows={state.rows}
-        cells={state.cells}
-        cellSize={cellSize}
-        onMouseMove={moveButtons}
-        onMouseLeave={hideButtons}
-      />
+      <Context.Provider value={{ cellSize, cells: state.cells }}>
+        <Table
+          rows={state.rows}
+          onMouseMove={moveButtons}
+          onMouseLeave={hideButtons}
+        />
 
-      {/* Add Row button */}
-      <Button
-        type='+'
-        style={{ top: "calc(100% + 2px)", left: "3px" }}
-        size={cellSize}
-        onClick={addRow}
-      />
+        {/* Add Row button */}
+        <Button
+          type='+'
+          style={{ top: "calc(100% + 2px)", left: "3px" }}
+          size={cellSize}
+          onClick={addRow}
+        />
 
-      {/* Add Column button */}
-      <Button
-        type='+'
-        style={{ top: "3px", left: "calc(100% + 2px)" }}
-        size={cellSize}
-        onClick={addColumn}
-      />
+        {/* Add Column button */}
+        <Button
+          type='+'
+          style={{ top: "3px", left: "calc(100% + 2px)" }}
+          size={cellSize}
+          onClick={addColumn}
+        />
 
-      {/* Remove Row button */}
-      <Button
-        type='-'
-        style={{
-          top: state.top + 2,
-          right: "100%",
-          boxShadow: "inset -3px 0px 0 -1px white",
-        }}
-        size={cellSize}
-        onClick={removeRow}
-        isVisible={state.isVisible && state.rows.length > 1}
-      />
+        {/* Remove Row button */}
+        <Button
+          type='-'
+          style={{
+            top: state.top + 2,
+            right: "100%",
+            boxShadow: "inset -3px 0px 0 -1px white",
+          }}
+          size={cellSize}
+          onClick={removeRow}
+          isVisible={state.isVisible && state.rows.length > 1}
+        />
 
-      {/* Remove Column button */}
-      <Button
-        type='-'
-        style={{
-          left: state.left + 2,
-          bottom: "100%",
-          boxShadow: "inset 0px -3px 0 -1px white",
-        }}
-        size={cellSize}
-        onClick={removeColumn}
-        isVisible={state.isVisible && state.cells.length > 1}
-      />
+        {/* Remove Column button */}
+        <Button
+          type='-'
+          style={{
+            left: state.left + 2,
+            bottom: "100%",
+            boxShadow: "inset 0px -3px 0 -1px white",
+          }}
+          size={cellSize}
+          onClick={removeColumn}
+          isVisible={state.isVisible && state.cells.length > 1}
+        />
+      </Context.Provider>
     </div>
   );
 };

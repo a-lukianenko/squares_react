@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import css from "./Table.module.css";
+import { Context } from "../../context";
 
 // Table
-const Table = ({ rows, cells, cellSize, onMouseMove, onMouseLeave }) => {
+const Table = ({ rows, onMouseMove, onMouseLeave }) => {
   function handleMouseMove(event) {
     if (event.target.tagName === "TD") {
       const {
@@ -21,8 +22,8 @@ const Table = ({ rows, cells, cellSize, onMouseMove, onMouseLeave }) => {
     }
   }
 
-  function handleMouseLeave(event) {
-    const { className } = event.relatedTarget;
+  function handleMouseLeave({ relatedTarget }) {
+    const { className } = relatedTarget;
     className && className.includes("remove")
       ? onMouseLeave(true)
       : onMouseLeave(false);
@@ -36,7 +37,7 @@ const Table = ({ rows, cells, cellSize, onMouseMove, onMouseLeave }) => {
     >
       <tbody>
         {rows.map(row => (
-          <Row key={row.id} cells={cells} cellSize={cellSize} />
+          <Row key={row.id} />
         ))}
       </tbody>
     </table>
@@ -44,21 +45,23 @@ const Table = ({ rows, cells, cellSize, onMouseMove, onMouseLeave }) => {
 };
 
 // Row
-const Row = ({ cells, cellSize }) => {
+const Row = () => {
+  const { cells } = useContext(Context);
   return (
     <tr>
       {cells.map(cell => (
-        <Cell key={cell.id} size={cellSize} />
+        <Cell key={cell.id} />
       ))}
     </tr>
   );
 };
 
 // Cell
-const Cell = ({ size }) => {
+const Cell = () => {
+  const { cellSize } = useContext(Context);
   return (
     <td
-      style={{ width: size + "px", height: size + "px" }}
+      style={{ width: cellSize + "px", height: cellSize + "px" }}
       className={css.square}
     ></td>
   );
