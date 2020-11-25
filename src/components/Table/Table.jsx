@@ -3,20 +3,24 @@ import css from "./Table.module.css";
 import { Context } from "../../context";
 
 // Table
-const Table = ({ rows, onMouseMove, onMouseLeave }) => {
-  function handleMouseMove(event) {
-    if (event.target.tagName === "TD") {
-      const {
-        offsetTop,
-        offsetLeft,
-        cellIndex,
-        parentElement: { rowIndex },
-      } = event.target;
+const Table = ({
+  rows,
+  left,
+  top,
+  onMouseEnter,
+  onMouseMove,
+  onMouseLeave,
+}) => {
+  function handleMouseMove({ target }) {
+    if (target.tagName !== "TD") return;
+
+    const { offsetTop, offsetLeft } = target;
+    if (left !== offsetLeft || top !== offsetTop) {
       const payload = {
         offsetLeft,
         offsetTop,
-        rowIndex,
-        cellIndex,
+        rowIndex: target.parentElement.rowIndex,
+        cellIndex: target.cellIndex,
       };
       onMouseMove(payload);
     }
@@ -32,6 +36,7 @@ const Table = ({ rows, onMouseMove, onMouseLeave }) => {
   return (
     <table
       className={css.squares}
+      onMouseEnter={onMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

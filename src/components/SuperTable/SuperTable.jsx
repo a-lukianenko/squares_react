@@ -6,85 +6,76 @@ import { Context } from "../../context";
 
 const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
-  const range = int => [...Array(int).keys()].map(el => ({ id: el }));
+  const range = int => {
+    return [...Array(int).keys()].map(el => ({ id: el }));
+  };
 
   const initialState = {
-    rows: range(initialHeight),
-    cells: range(initialWidth),
     rowIndex: null,
     cellIndex: null,
     left: null,
     top: null,
-    isVisible: null,
   };
 
   const [state, setState] = useState(initialState);
+  const [rows, setRows] = useState(() => range(initialHeight));
+  const [cells, setCells] = useState(() => range(initialWidth));
+  const [isVisible, setIsVisible] = useState(false);
 
   // Add Buttons methods
   function addRow() {
-    setState({
-      ...state,
-      rows: range(state.rows.length + 1),
-    });
+    setRows(range(rows.length + 1));
   }
 
   function addColumn() {
-    setState({
-      ...state,
-      cells: range(state.cells.length + 1),
-    });
+    setCells(range(cells.length + 1));
   }
   //
 
   // Remove buttons methods
   function removeRow() {
-    setState({
-      ...state,
-      rows: state.rows.filter((_, i) => i !== state.rowIndex),
-      isVisible: false,
-    });
+    setIsVisible(false);
+    setRows(rows.filter((_, i) => i !== state.rowIndex));
   }
 
   function removeColumn() {
-    setState({
-      ...state,
-      cells: state.cells.filter((_, i) => i !== state.cellIndex),
-      isVisible: false,
-    });
+    setIsVisible(false);
+    setCells(cells.filter((_, i) => i !== state.cellIndex));
   }
   //
 
-  // Move Buttons along their axes
+  // Display & move Buttons along their axes
+  function showButtons() {
+    setIsVisible(true);
+  }
+
   function moveButtons({ offsetLeft, offsetTop, rowIndex, cellIndex }) {
+    console.log("render");
     setState({
-      ...state,
       left: offsetLeft,
       top: offsetTop,
       rowIndex,
       cellIndex,
-      isVisible: true,
     });
   }
 
   function hideButtons(flag) {
-    setState({
-      ...state,
-      isVisible: flag,
-    });
+    setIsVisible(flag);
   }
 
   function mouseLeaveSuperTable() {
-    setState({
-      ...state,
-      isVisible: false,
-    });
+    setIsVisible(false);
   }
+  //
 
   return (
     <div className={css.squaresWrapper} onMouseLeave={mouseLeaveSuperTable}>
-      <Context.Provider value={{ cellSize, cells: state.cells }}>
+      <Context.Provider value={{ cellSize, cells: cells }}>
         <Table
-          rows={state.rows}
+          rows={rows}
+          left={state.left}
+          top={state.top}
+          onMouseEnter={showButtons}
           onMouseMove={moveButtons}
           onMouseLeave={hideButtons}
         />
@@ -115,7 +106,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           }}
           size={cellSize}
           onClick={removeRow}
-          isVisible={state.isVisible && state.rows.length > 1}
+          isVisible={isVisible && rows.length > 1}
         />
 
         {/* Remove Column button */}
@@ -128,7 +119,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           }}
           size={cellSize}
           onClick={removeColumn}
-          isVisible={state.isVisible && state.cells.length > 1}
+          isVisible={isVisible && cells.length > 1}
         />
       </Context.Provider>
     </div>
