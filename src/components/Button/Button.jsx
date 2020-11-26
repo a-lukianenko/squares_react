@@ -7,10 +7,8 @@ function getButtonClass(type, isVisible) {
     return isVisible ? `${css.removeBtn} ${css.visible}` : css.removeBtn;
 }
 
-const Button = ({ type, style, size, onClick, isVisible }) => {
-  console.log("render Buttons");
-
-  let buttonClass = getButtonClass(type, isVisible);
+const Button = React.memo(({ type, style, size, onClick, isVisible }) => {
+  const buttonClass = getButtonClass(type, isVisible);
 
   return (
     <button
@@ -26,6 +24,6 @@ const Button = ({ type, style, size, onClick, isVisible }) => {
       {type}
     </button>
   );
-};
+});
 
 export default Button;

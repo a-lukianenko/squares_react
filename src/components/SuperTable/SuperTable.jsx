@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useMemo } from "react";
 import Table from "../Table/Table";
 import Button from "../Button/Button";
 import css from "./SuperTable.module.css";
@@ -10,38 +10,68 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
     return [...Array(int).keys()].map(el => ({ id: el }));
   }, []);
 
-  const initialState = {
+  const initialPosition = {
     rowIndex: null,
     cellIndex: null,
     left: null,
     top: null,
   };
 
-  const [state, setState] = useState(initialState);
+  const [position, setPosition] = useState(initialPosition);
   const [rows, setRows] = useState(() => range(initialHeight));
   const [cells, setCells] = useState(() => range(initialWidth));
   const [isVisible, setIsVisible] = useState(false);
 
-  // Add Buttons methods
-  function addRow() {
-    setRows(range(rows.length + 1));
-  }
+  // Add Buttons methods & styles
+  const addRow = useCallback(() => setRows(range(rows.length + 1)), [
+    range,
+    rows.length,
+  ]);
 
-  function addColumn() {
-    setCells(range(cells.length + 1));
-  }
+  const addRowStyle = useMemo(
+    () => ({ top: "calc(100% + 2px)", left: "3px" }),
+    []
+  );
+
+  const addColumn = useCallback(() => setCells(range(cells.length + 1)), [
+    range,
+    cells.length,
+  ]);
+
+  const addColumnStyle = useMemo(
+    () => ({ top: "3px", left: "calc(100% + 2px)" }),
+    []
+  );
   //
 
-  // Remove buttons methods
-  function removeRow() {
+  // Remove buttons methods & styles
+  const removeRow = useCallback(() => {
     setIsVisible(false);
-    setRows(rows.filter((_, i) => i !== state.rowIndex));
-  }
+    setRows(rows.filter((_, i) => i !== position.rowIndex));
+  }, [rows, position.rowIndex]);
 
-  function removeColumn() {
+  const removeRowStyle = useMemo(
+    () => ({
+      top: position.top + 2,
+      right: "100%",
+      boxShadow: "inset -3px 0px 0 -1px white",
+    }),
+    [position.top]
+  );
+
+  const removeColumn = useCallback(() => {
     setIsVisible(false);
-    setCells(cells.filter((_, i) => i !== state.cellIndex));
-  }
+    setCells(cells.filter((_, i) => i !== position.cellIndex));
+  }, [cells, position.cellIndex]);
+
+  const removeColumnStyle = useMemo(
+    () => ({
+      left: position.left + 2,
+      bottom: "100%",
+      boxShadow: "inset 0px -3px 0 -1px white",
+    }),
+    [position.left]
+  );
   //
 
   // Display & move Buttons along their axes
@@ -50,7 +80,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   }
 
   function moveButtons({ offsetLeft, offsetTop, rowIndex, cellIndex }) {
-    setState({
+    setPosition({
       left: offsetLeft,
       top: offsetTop,
       rowIndex,
@@ -72,25 +102,18 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       <Context.Provider value={{ cellSize, cells: cells }}>
         <Table
           rows={rows}
-          left={state.left}
-          top={state.top}
           onMouseEnter={showButtons}
-          onMouseMove={moveButtons}
+          onMouseOver={moveButtons}
           onMouseLeave={hideButtons}
         />
 
         {/* Add Row button */}
-        <Button
-          type='+'
-          style={{ top: "calc(100% + 2px)", left: "3px" }}
-          size={cellSize}
-          onClick={addRow}
-        />
+        <Button type='+' style={addRowStyle} size={cellSize} onClick={addRow} />
 
         {/* Add Column button */}
         <Button
           type='+'
-          style={{ top: "3px", left: "calc(100% + 2px)" }}
+          style={addColumnStyle}
           size={cellSize}
           onClick={addColumn}
         />
@@ -98,11 +121,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
         {/* Remove Row button */}
         <Button
           type='-'
-          style={{
-            top: state.top + 2,
-            right: "100%",
-            boxShadow: "inset -3px 0px 0 -1px white",
-          }}
+          style={removeRowStyle}
           size={cellSize}
           onClick={removeRow}
           isVisible={isVisible && rows.length > 1}
@@ -111,11 +130,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
         {/* Remove Column button */}
         <Button
           type='-'
-          style={{
-            left: state.left + 2,
-            bottom: "100%",
-            boxShadow: "inset 0px -3px 0 -1px white",
-          }}
+          style={removeColumnStyle}
           size={cellSize}
           onClick={removeColumn}
           isVisible={isVisible && cells.length > 1}

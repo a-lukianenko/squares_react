@@ -3,28 +3,25 @@ import css from "./Table.module.css";
 import { Context } from "../../context";
 
 // Table
-const Table = ({
-  rows,
-  left,
-  top,
-  onMouseEnter,
-  onMouseMove,
-  onMouseLeave,
-}) => {
-  console.log("render Table");
-  function handleMouseMove({ target }) {
+const Table = ({ rows, onMouseEnter, onMouseOver, onMouseLeave }) => {
+  function handleMouseOver({ target }) {
     if (target.tagName !== "TD") return;
 
-    const { offsetTop, offsetLeft } = target;
-    if (left !== offsetLeft || top !== offsetTop) {
-      const payload = {
-        offsetLeft,
-        offsetTop,
-        rowIndex: target.parentElement.rowIndex,
-        cellIndex: target.cellIndex,
-      };
-      onMouseMove(payload);
-    }
+    const {
+      offsetTop,
+      offsetLeft,
+      parentElement: { rowIndex },
+      cellIndex,
+    } = target;
+
+    const payload = {
+      offsetLeft,
+      offsetTop,
+      rowIndex,
+      cellIndex,
+    };
+
+    onMouseOver(payload);
   }
 
   function handleMouseLeave({ relatedTarget }) {
@@ -38,7 +35,7 @@ const Table = ({
     <table
       className={css.squares}
       onMouseEnter={onMouseEnter}
-      onMouseMove={handleMouseMove}
+      onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
       <tbody>
