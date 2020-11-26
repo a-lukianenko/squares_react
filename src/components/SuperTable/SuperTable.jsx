@@ -9,7 +9,6 @@ const functionsCounter = new Set();
 const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   // integer to an array of objects with id
   const range = useCallback(int => {
-    console.log("generated");
     return [...Array(int).keys()].map(el => ({ id: el }));
   }, []);
 
@@ -53,7 +52,6 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   }
 
   function moveButtons({ offsetLeft, offsetTop, rowIndex, cellIndex }) {
-    console.log("render");
     setState({
       left: offsetLeft,
       top: offsetTop,

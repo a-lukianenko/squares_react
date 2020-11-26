@@ -11,6 +11,7 @@ const Table = ({
   onMouseMove,
   onMouseLeave,
 }) => {
+  console.log("render Table");
   function handleMouseMove({ target }) {
     if (target.tagName !== "TD") return;
 

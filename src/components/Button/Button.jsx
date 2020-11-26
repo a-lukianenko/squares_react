@@ -2,6 +2,7 @@ import React from "react";
 import css from "./Button.module.css";
 
 const Button = ({ type, style, size, onClick, isVisible }) => {
+  console.log("render Buttons");
   size = size + "px";
   let buttonClass;
   if (type === "+") {
