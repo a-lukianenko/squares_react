@@ -1,25 +1,24 @@
 import React from "react";
 import css from "./Button.module.css";
 
+function getButtonClass(type, isVisible) {
+  if (type === "+") return css.addBtn;
+  if (type === "-")
+    return isVisible ? `${css.removeBtn} ${css.visible}` : css.removeBtn;
+}
+
 const Button = ({ type, style, size, onClick, isVisible }) => {
   console.log("render Buttons");
-  size = size + "px";
-  let buttonClass;
-  if (type === "+") {
-    buttonClass = css.addBtn;
-  } else if (type === "-") {
-    buttonClass = css.removeBtn;
-  }
 
-  buttonClass = isVisible ? `${buttonClass} ${css.visible}` : buttonClass;
+  let buttonClass = getButtonClass(type, isVisible);
 
   return (
     <button
       style={{
         ...style,
-        width: size,
-        height: size,
-        lineHeight: size,
+        width: size + "px",
+        height: size + "px",
+        lineHeight: size + "px",
       }}
       className={buttonClass}
       onClick={onClick}
