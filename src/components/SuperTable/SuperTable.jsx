@@ -11,8 +11,8 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   }, []);
 
   const initialPosition = {
-    rowIndex: null,
-    cellIndex: null,
+    rowIndex: 0,
+    cellIndex: 0,
     left: null,
     top: null,
   };
@@ -75,26 +75,26 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
   //
 
   // Display & move Buttons along their axes
-  function showButtons() {
-    setIsVisible(true);
-  }
+  const moveButtons = useCallback(
+    ({ offsetLeft, offsetTop, rowIndex, cellIndex }) => {
+      setPosition({
+        left: offsetLeft,
+        top: offsetTop,
+        rowIndex,
+        cellIndex,
+      });
+      setIsVisible(true);
+    },
+    []
+  );
 
-  function moveButtons({ offsetLeft, offsetTop, rowIndex, cellIndex }) {
-    setPosition({
-      left: offsetLeft,
-      top: offsetTop,
-      rowIndex,
-      cellIndex,
-    });
-  }
-
-  function hideButtons(flag) {
+  const hideButtons = useCallback(flag => {
     setIsVisible(flag);
-  }
+  }, []);
 
-  function mouseLeaveSuperTable() {
+  const mouseLeaveSuperTable = useCallback(() => {
     setIsVisible(false);
-  }
+  }, []);
   //
 
   return (
@@ -102,7 +102,8 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       <Context.Provider value={{ cellSize, cells: cells }}>
         <Table
           rows={rows}
-          onMouseEnter={showButtons}
+          // cellSize={cellSize}
+          // cells={cells}
           onMouseOver={moveButtons}
           onMouseLeave={hideButtons}
         />

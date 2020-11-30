@@ -3,7 +3,7 @@ import css from "./Table.module.css";
 import { Context } from "../../context";
 
 // Table
-const Table = ({ rows, onMouseEnter, onMouseOver, onMouseLeave }) => {
+const Table = React.memo(({ rows, onMouseOver, onMouseLeave }) => {
   function handleMouseOver({ target }) {
     if (target.tagName !== "TD") return;
 
@@ -34,7 +34,6 @@ const Table = ({ rows, onMouseEnter, onMouseOver, onMouseLeave }) => {
   return (
     <table
       className={css.squares}
-      onMouseEnter={onMouseEnter}
       onMouseOver={handleMouseOver}
       onMouseLeave={handleMouseLeave}
     >
@@ -45,7 +44,7 @@ const Table = ({ rows, onMouseEnter, onMouseOver, onMouseLeave }) => {
       </tbody>
     </table>
   );
-};
+});
 
 // Row
 const Row = () => {
