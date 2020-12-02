@@ -1,46 +1,51 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Button from "./Button";
-import SuperTable from "../SuperTable/SuperTable";
 
-describe("Add Button", () => {
-  const initialHeight = 4;
-  const initialWidth = 4;
-  beforeEach(() => {
-    render(
-      <SuperTable
-        initialHeight={initialHeight}
-        initialWidth={initialWidth}
-        cellSize={50}
-      />
-    );
-  });
-  test("adds 1 row when clicked", () => {
-    expect(screen.getAllByRole("row").length).toBe(initialHeight);
-    userEvent.click(screen.getAllByRole("button", { name: "+" })[0]);
+describe("Button component renders props correctly", () => {
+  const clickMock = jest.fn();
 
-    expect(screen.getAllByRole("row").length).toBe(initialHeight + 1);
-    expect(screen.getAllByRole("row")[0].cells.length).not.toBe(
-      initialWidth + 1
-    );
-  });
+  test("Add Button", () => {
+    const props = {
+      type: "+",
+      style: { top: "calc(100% + 2px)", left: "3px" },
+      size: 50,
+      onClick: clickMock,
+    };
 
-  test("adds 1 column when clicked", () => {
-    expect(screen.getAllByRole("cell").length).toBe(
-      initialHeight * initialWidth
-    );
-    userEvent.click(screen.getAllByRole("button", { name: "+" })[1]);
-
-    expect(screen.getAllByRole("cell").length).toBe(4 * (initialWidth + 1));
-  });
-});
-
-describe("Remove button", () => {
-  test("Remove btn gets clicked", () => {
-    const clickMock = jest.fn();
-    render(<Button type='-' onClick={clickMock} />);
-
+    render(<Button {...props} />);
     const btn = screen.getByRole("button");
+
+    expect(btn).toHaveTextContent(props.type);
+    expect(btn).toHaveClass("addBtn");
+    expect(btn).toHaveStyle(props.style);
+    expect(btn).toBeVisible();
+
+    userEvent.click(btn);
+    expect(clickMock).toHaveBeenCalledTimes(1);
+  });
+
+  test("Remove Button", () => {
+    const props = {
+      type: "-",
+      style: {
+        top: "2px",
+        right: "100%",
+        boxShadow: "inset -3px 0px 0 -1px white",
+      },
+      size: 50,
+      onClick: clickMock,
+      isVisible: true,
+    };
+
+    render(<Button {...props} />);
+    const btn = screen.getByRole("button");
+
+    expect(btn).toHaveTextContent(props.type);
+    expect(btn).toHaveStyle(props.style);
+    expect(btn).toHaveClass("removeBtn visible");
+    expect(btn).toBeVisible();
+
     userEvent.click(btn);
     expect(clickMock).toHaveBeenCalledTimes(1);
   });

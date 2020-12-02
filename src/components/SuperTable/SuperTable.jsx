@@ -52,7 +52,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
 
   const removeRowStyle = useMemo(
     () => ({
-      top: position.top + 2,
+      top: `${position.top + 2}px`,
       right: "100%",
       boxShadow: "inset -3px 0px 0 -1px white",
     }),
@@ -66,7 +66,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
 
   const removeColumnStyle = useMemo(
     () => ({
-      left: position.left + 2,
+      left: `${position.left + 2}px`,
       bottom: "100%",
       boxShadow: "inset 0px -3px 0 -1px white",
     }),
@@ -102,8 +102,6 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
       <Context.Provider value={{ cellSize, cells: cells }}>
         <Table
           rows={rows}
-          // cellSize={cellSize}
-          // cells={cells}
           onMouseOver={moveButtons}
           onMouseLeave={hideButtons}
         />
@@ -124,7 +122,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           type='-'
           style={removeRowStyle}
           size={cellSize}
-          onClick={removeRow}
+          onClick={rows.length > 1 ? removeRow : undefined}
           isVisible={isVisible && rows.length > 1}
         />
 
@@ -133,7 +131,7 @@ const SuperTable = ({ initialWidth = 4, initialHeight = 4, cellSize = 50 }) => {
           type='-'
           style={removeColumnStyle}
           size={cellSize}
-          onClick={removeColumn}
+          onClick={cells.length > 1 ? removeColumn : undefined}
           isVisible={isVisible && cells.length > 1}
         />
       </Context.Provider>

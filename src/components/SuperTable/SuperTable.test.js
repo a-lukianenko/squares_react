@@ -2,49 +2,64 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SuperTable from "./SuperTable";
 
-test("SuperTable renders an InitialWidth x InitialHeight table", () => {
+describe("Table re-renders", () => {
   const initialHeight = 4;
   const initialWidth = 4;
 
-  render(
-    <SuperTable
-      initialHeight={initialHeight}
-      initialWidth={initialWidth}
-      cellSize={50}
-    />
-  );
+  beforeEach(() => {
+    render(
+      <SuperTable
+        initialHeight={initialHeight}
+        initialWidth={initialWidth}
+        cellSize={50}
+      />
+    );
+  });
 
-  const $rows = screen.getAllByRole("row");
-  expect($rows.length).toEqual(4);
+  test("with +1 row when Add Row Button is clicked", () => {
+    userEvent.click(screen.getAllByRole("button", { name: "+" })[0]);
+    expect(screen.getAllByRole("row").length).toBe(initialHeight + 1);
+  });
 
-  const $cells = screen.getAllByRole("cell");
-  expect($cells.length).toEqual(initialWidth * initialHeight);
-});
+  test("with +1 column when Add Column Button is clicked", () => {
+    userEvent.click(screen.getAllByRole("button", { name: "+" })[1]);
+    expect(screen.getAllByRole("cell").length).toBe(
+      initialHeight * (initialWidth + 1)
+    );
+  });
 
-test("Remove Row Button removes 1 row", async () => {
-  const initialHeight = 4;
+  test("with -1 row when Remove Row Button is clicked", () => {
+    const removeRowBtn = screen.getAllByRole("button", { name: "-" })[0];
 
-  render(
-    <SuperTable initialHeight={initialHeight} initialWidth={4} cellSize={50} />
-  );
+    userEvent.click(removeRowBtn);
+    expect(screen.getAllByRole("row").length).toBe(initialHeight - 1);
+  });
 
-  const table = screen.getByRole("table");
-  const rows = screen.getAllByRole("row");
-  const button = screen.getAllByRole("button", { name: "-" })[0];
-  // const clickMock = jest.fn();
+  test("with -1 column when Remove Column Button is clicked", () => {
+    const cells = screen.getAllByRole("cell");
+    const removeColBtn = screen.getAllByRole("button", { name: "-" })[1];
 
-  expect(rows.length).toBe(initialHeight);
+    expect(cells.length).toBe(initialWidth * initialHeight);
 
-  userEvent.hover(table);
-  expect(button).toBeVisible();
+    userEvent.click(removeColBtn);
+    expect(screen.getAllByRole("cell").length).toBe(
+      cells.length - initialWidth
+    );
+  });
 
-  // userEvent.unhover(table);
-  // expect(button).not.toBeVisible(); // doesn't pass
+  test("with minomum of 1 row", () => {
+    const removeRowBtn = screen.getAllByRole("button", { name: "-" })[0];
+    for (let i = 0; i < initialHeight; i++) {
+      userEvent.click(removeRowBtn);
+    }
+    expect(screen.getAllByRole("row").length).toBe(1);
+  });
 
-  // userEvent.click(button);
-  // expect(clickMock).toHaveBeenCalled();
-
-  // expect(rows.length).toBe(initialHeight - 1);
-  // expect(button).not.toHaveClass("visible");
-  // expect(button).not.toBeVisible();
+  test("with minimum of 1 column", () => {
+    const removeColBtn = screen.getAllByRole("button", { name: "-" })[1];
+    for (let i = 0; i < initialWidth; i++) {
+      userEvent.click(removeColBtn);
+    }
+    expect(screen.getAllByRole("cell").length).toBe(initialWidth);
+  });
 });
